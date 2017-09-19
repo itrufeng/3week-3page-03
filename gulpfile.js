@@ -1,23 +1,15 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
-const browserSync = require('browser-sync');
-
-const reload = browserSync.reload;
+const cleanCSS = require('gulp-clean-css');
 
 gulp.task('serve', ['sass'], function() {
-    browserSync.init({
-        server: "./"
-    });
-    gulp.watch('styles/*.scss', ['sass']);
-    gulp.watch('index.html').on('change', reload);
 });
 
 gulp.task('sass', function() {
-    return gulp.src('styles/*.scss')
+    return gulp.src(['styles/*.scss', 'styles/*.css'])
         .pipe(sass())
         .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('dist'))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('default', ['serve']);
